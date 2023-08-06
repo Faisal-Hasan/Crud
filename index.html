@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Pricing</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    Dropdown link
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </nav>
+    </header>
+    <main>
+        <div class="container mt-5 col-6">
+        <div class="input-group mb-3"  alignment="center">
+            <input type="text" class="form-control" placeholder="Chapter Name" aria-label="Recipient's username" aria-describedby="button-addon2">
+           
+              <button id="add_btn" class="btn btn-outline-success" type="button" id="button-addon2">Button</button>
+            
+          </div>
+          <ul id="parentlist" class="list-group">
+            <li class="list-group-item d-flex justify-content-between" >
+              <h3 class="flex-grow-1" >Chapter 1</h3>
+              
+               <button class="btn btn-danger mx-3" onclick="editChapter(this)">Edit</button>
+               <button class="btn btn-warning" onclick="removeChapter(this)">Remove </button>
+               </li>
+            
+          </ul>
+        </div>
+    </main>
+    <script>
+        let addbtn=document.getElementById('add_btn')
+
+        addbtn.addEventListener('click',add_chapter)
+        let parentlist=document.getElementById('parentlist');
+       
+
+        function add_chapter(e){
+          if(parentlist.children[0].className=="emptymsg"){
+            parentlist.children[0].remove()
+
+          }
+         
+            let currentbtn=e.currentTarget;
+            let currentinput=currentbtn.previousElementSibling;
+            let currentChapter=currentinput.value
+
+            let newli=document.createElement('li')
+           //newli.classList.add('list-group-item')
+           newli.className="list-group-item d-flex justify-content-between"
+            newli.innerHTML=` <h3 class="flex-grow-1" >${currentChapter}</h3>
+              <button class="btn btn-danger mx-3" onclick="editChapter(this)" >Edit</button>
+              <button class="btn btn-warning" onclick="removeChapter(this)">Remove</button>`
+
+           
+            parentlist.appendChild(newli)
+
+        }
+
+        function removeChapter(currElement){
+          currElement.parentElement.remove();
+          let parentlist=document.getElementById('parentlist');
+          if(parentlist.children.length<=0){
+            let newmsg=document.createElement("h3")
+            newmsg.classList.add("emptymsg")
+            newmsg.textContent="Nother is here .Please Add some Chapters"
+            parentlist.appendChild(newmsg)
+          }
+
+        }
+        function editChapter(currElement){
+
+          if(currElement.textContent=="Done"){
+            currElement.textContent="Edit"
+            let curChapterName=currElement.previousElementSibling.value
+            let curHeading=document.createElement('h3')
+            curHeading.className="flex-grow-1"
+            curHeading.textContent=curChapterName
+            currElement.parentElement.replaceChild(curHeading,currElement.previousElementSibling)
+
+
+          }
+          else{
+            currElement.textContent="Done"
+           let  curChapterName=currElement.previousElementSibling.textContent
+          let curinput=document.createElement('input')
+          curinput.type='text'
+          curinput.className="form-control"
+          curinput.placeholder="Chapter name"
+          curinput.value=curChapterName
+
+          currElement.parentElement.replaceChild(curinput,currElement.previousElementSibling)
+          
+
+          }
+         
+        }
+    </script>
+    
+</body>
+</html>
